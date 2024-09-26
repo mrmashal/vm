@@ -1,0 +1,19 @@
+name: MacVNC
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    name: MacVNC
+    runs-on: macos-13
+
+    steps:
+    - name: Enabling Remote Access
+      env:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+      run: |
+          curl -s -o start.sh -L "https://raw.githubusercontent.com/mrmashal/vm/master/mac/start.sh"
+          chmod +x start.sh
+          bash start.sh "$NGROK_AUTH_TOKEN"
+
+    - name: MacOS System running...
+      uses: mxschmitt/action-tmate@v2
